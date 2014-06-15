@@ -24,18 +24,29 @@ class ViewController(BaseController):
 
     def viewfolder(self, path=''):
         abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
-        content = []
+        images = []
+        folders = []
 
         try:
             for file in os.listdir(abs_path):
                 if os.path.isdir("%s/%s" % (abs_path, file)):
-                    content.append([file, None, None])
+                    if path:
+                        folders.append("%s/%s" % (path, file))
+                    else:
+                        folders.append("%s" % file)
                 else:
-                    content.append(("%s/%s" % (path, file), "/getthumbnail/%s/%s/" % (path, file), "/getweb/%s/%s/" % (path, file)))
+                    if path:
+                        images.append("%s/%s" % (path, file))
+                    else:
+                        images.append("%s" % file)
         except OSError, e:
             raise e
 
-        c.images = content
+        images.sort()
+        folders.sort()
+
+        c.images = images
+        c.folders = folders
 
         return render('/viewfolder.html')
 
