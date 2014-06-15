@@ -23,8 +23,8 @@ def make_map(config):
     map.connect('/', controller='view', action='index')
     map.connect('/viewfolder/', controller='view', action='viewfolder')
     map.connect('/viewfolder/*path/', controller='view', action='viewfolder')
-    map.connect('/getthumbnail/*path/', controller='view', action='getthumbnail')
-    map.connect('/getweb/*path/', controller='view', action='getweb')
+    map.connect('/getthumbnail/*path/', controller='image', action='getthumbnail')
+    map.connect('/getweb/*path/', controller='image', action='getweb')
     #map.connect('/{controller}/{action}')
     #map.connect('/{controller}/{action}/{id}')
 
