@@ -32,72 +32,66 @@ class ViewController(BaseController):
             output += "Ooops! %s doesn't exist" % config['app_conf']['photo_store']
         return output
 
-    def getthumbnail(self, path):
-        """ create thumbnails
-        """
-        absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
-        img_format = ''
-        width = int(config['app_conf']['thumb_with'])
-        height = int(config['app_conf']['thumb_height'])
-        quality = int(config['app_conf']['thumb_quality'])
+    def _create_cached_image(self, path, width, height, quality, targetpath, square=False):
+        """ create resized image and write it to disk
 
+            path: abs path to image
+            target: abs path to target
+        """
         try:
-            img_src = Image.open(absimagepath)
+            img_src = Image.open(path)
         except Exception, e:
             raise e
 
-        # create square thumbnil
-        #img_src.thumbnail((width,height), Image.ANTIALIAS)
-        img_thumb = ImageOps.fit(img_src, (width, height), Image.ANTIALIAS)
+        if square:
+            img_out = ImageOps.fit(img_src, (width, height), Image.ANTIALIAS)
+        else:
+            img_src.thumbnail((width,height), Image.ANTIALIAS)
+            img_out = img_src
+
 
         # caching
         md5sum = md5.new()
         md5sum.update(path)
-        img_cache = "%s/%s_%sx%s.%s" % (config['app_conf']['thumb_store'], md5sum.hexdigest(), width, height, img_src.format)
+        img_cache = "%s/%s_%sx%s.%s" % (targetpath, md5sum.hexdigest(), width, height, img_src.format.lower())
         if not os.path.isfile(img_cache):
             try:
-                img_thumb.save(img_cache, img_src.format, quality=quality)
+                img_out.save(img_cache, img_src.format, quality=quality)
             except Exception, e:
                 raise e
 
-        # prepare response
-        response.content_type = 'image/%s' % img_src.format
         with open(img_cache, 'rb') as image:
-            return image.read()
+            return (image.read(), img_src.format)
 
-        return None
+        return (None, None)
+
+
+    def getthumbnail(self, path):
+        """ create thumbnails
+        """
+        absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
+        width = int(config['app_conf']['thumb_with'])
+        height = int(config['app_conf']['thumb_height'])
+        quality = int(config['app_conf']['thumb_quality'])
+
+        (img_data, img_format) = self._create_cached_image(absimagepath, width, height, quality, config['app_conf']['thumb_store'], square=True)
+
+        # prepare response
+        response.content_type = 'image/%s' % img_format
+        return img_data
+
 
     def getweb(self, path):
         """ create resized pictures for showig in first place
         """
         absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
-        img_format = ''
         width = int(config['app_conf']['web_with'])
         height = int(config['app_conf']['web_height'])
         quality = int(config['app_conf']['web_quality'])
 
-        try:
-            img_src = Image.open(absimagepath)
-        except Exception, e:
-            raise e
-
-        # create resized version
-        img_src.thumbnail((width,height), Image.ANTIALIAS)
-
-        # caching
-        md5sum = md5.new()
-        md5sum.update(path)
-        img_cache = "%s/%s_%sx%s.%s" % (config['app_conf']['web_store'], md5sum.hexdigest(), width, height, img_src.format)
-        if not os.path.isfile(img_cache):
-            try:
-                img_src.save(img_cache, img_src.format, quality=quality)
-            except Exception, e:
-                raise e
+        (img_data, img_format) = self._create_cached_image(absimagepath, width, height, quality, config['app_conf']['web_store'])
 
         # prepare response
-        response.content_type = 'image/%s' % img_src.format
-        with open(img_cache, 'rb') as image:
-            return image.read()
-
-        return None
+        response.content_type = 'image/%s' % img_format
+        return img_data
 
