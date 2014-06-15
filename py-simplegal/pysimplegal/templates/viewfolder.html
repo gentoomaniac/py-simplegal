@@ -7,21 +7,46 @@
     <link rel="stylesheet" type="text/css" href="/theme.css">
 </head>
 <body>
-    <h1>Hello world!</h1><br />
-% if len(c.folders) > 0:
-    <div class='foldercontainer'>
-    % for folder in c.folders:
-        <div class='folder'><a href='/viewfolder/${folder}/'>${folder}</a></div>
-    % endfor
+    <div class="header">
+        <h1>${c.site_name}</h1>
     </div>
-% endif
 
-% if len(c.images) > 0:
-    <div class='imagecontainer'>
-    % for img in c.images:
-        <div class='image'><a href='/getweb/${img}/'><img src='/getthumbnail/${img}/'></a></div>
+    <div class='navigation'>
+    <%
+        full_path = '/viewfolder/'
+    %>
+    <a href='${full_path}'>home</a>
+    % for path in c.paths:
+        <%
+            full_path +=  path
+        %>
+        &nbsp;/&nbsp;<a href='${full_path}'>${path}</a>
     % endfor
     </div>
-% endif
+
+    <div class='content'>
+    % if len(c.folders) > 0:
+        <div class='foldercontainer'>
+        % for folder in c.folders:
+            <div class='folder'>
+                <a href='/viewfolder/${folder}/'>
+                    <img src='/img/folder.png' height='${c.thumb_height}' width='${c.thumb_width}'>
+                    <em>${folder}</em>
+                </a>
+            </div>
+        % endfor
+        <div style="clear: both"></div>
+        </div>
+    % endif
+
+    % if len(c.images) > 0:
+        <div class='imagecontainer'>
+        % for img in c.images:
+            <div class='image'><a href='/getweb/${img}/'><img src='/getthumbnail/${img}/' height='${c.thumb_height}' width='${c.thumb_width}'></a></div>
+        % endfor
+        <div style="clear: both"></div>
+        </div>
+    % endif
+    </div>
     </body>
 </html>

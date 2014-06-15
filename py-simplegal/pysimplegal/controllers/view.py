@@ -42,11 +42,22 @@ class ViewController(BaseController):
         except OSError, e:
             raise e
 
+        # sort our data nicely
         images.sort()
         folders.sort()
 
+
+
+        # add template vars
+        c.site_name = config['app_conf']['site_name']
+        c.current_path = path
+        c.paths = h.path_to_array(path)
+
         c.images = images
         c.folders = folders
+
+        c.thumb_height = config['app_conf']['thumb_height']
+        c.thumb_width = config['app_conf']['thumb_width']
 
         return render('/viewfolder.html')
 

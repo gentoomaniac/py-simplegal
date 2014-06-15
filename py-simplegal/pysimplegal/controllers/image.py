@@ -51,9 +51,10 @@ class ImageController(BaseController):
         """ create thumbnails
         """
         absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
-        width = int(config['app_conf']['thumb_with'])
+        width = int(config['app_conf']['thumb_width'])
         height = int(config['app_conf']['thumb_height'])
         quality = int(config['app_conf']['thumb_quality'])
+
 
         (img_data, img_format) = self._create_cached_image(absimagepath, width, height, quality, config['app_conf']['thumb_store'], square=True)
 
@@ -66,7 +67,7 @@ class ImageController(BaseController):
         """ create resized pictures for showig in first place
         """
         absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
-        width = int(config['app_conf']['web_with'])
+        width = int(config['app_conf']['web_width'])
         height = int(config['app_conf']['web_height'])
         quality = int(config['app_conf']['web_quality'])
 
