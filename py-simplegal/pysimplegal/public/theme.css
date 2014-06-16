@@ -51,6 +51,8 @@ body {
 .content {
 }
 .navigation {
+    font-style: italic;
+    font-size: 80%;
 }
 .navigation a {
     color: #ffffff;

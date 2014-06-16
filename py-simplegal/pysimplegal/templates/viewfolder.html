@@ -23,10 +23,12 @@
     %>
     <a href='${full_path}'>home</a>
     % for path in c.paths:
+        % if path:
         <%
-            full_path +=  path
+            full_path +=  "%s/" % path
         %>
-        &nbsp;/&nbsp;<a href='${full_path}'>${path}</a>
+        &nbsp;&gt;&nbsp;<a href='${full_path}'>${path}</a>
+        % endif
     % endfor
     </div>
 

@@ -8,6 +8,7 @@ from pysimplegal.lib.base import BaseController, render
 
 import os
 from PIL import Image, ImageOps
+import imghdr
 
 import pysimplegal.lib.helpers as h
 
@@ -21,37 +22,43 @@ class ImageController(BaseController):
             path: abs path to image
             target: abs path to target
         """
-        try:
-            img_src = Image.open(path)
-        except Exception, e:
-            raise e
+        img_cache = "%s/%s" % (targetpath, h.get_thumb_filename(path))
+        img_type = imghdr.what(path)
+        # check if there is a cached file, if yes we can skipp nearly everything
+        # skip directly if it is a a gif image
+        # and we're not doing a thumbnail
+        if not os.path.isfile(img_cache) and (img_type != 'gif' or square):
+            try:
+                img_src = Image.open(path)
+            except Exception, e:
+                raise e
 
-        if square:
-            img_out = ImageOps.fit(img_src, (width, height), Image.ANTIALIAS)
-        else:
-            # some special treatment for gif files to keep the animation
-            if not img_src.format in ['GIF']:
+            if square:
+                img_out = ImageOps.fit(img_src, (width, height), Image.ANTIALIAS)
+            else:
                 img_src.thumbnail((width,height), Image.ANTIALIAS)
                 img_out = img_src
 
-
-
-        # some special treatment for gif files to keep the animation
-        if not img_src.format in ['GIF'] or square:
             # caching
             img_cache = "%s/%s" % (targetpath, h.get_thumb_filename(path))
-            if not os.path.isfile(img_cache):
-                try:
-                    img_out.save(img_cache, img_src.format, quality=quality)
-                except Exception, e:
-                    raise e
+            try:
+                img_out.save(img_cache, img_src.format, quality=quality)
+            except Exception, e:
+                raise e
 
-            with open(img_cache, 'rb') as image:
-                return (image.read(), img_src.format)
+
+        # either we had a cached image or the work is done, so read the
+        # thumb for the correct filetype and return everything
+        if img_type != 'gif' or square:
+            file_to_return = img_cache
+            img_thumb = Image.open(img_cache)
+            file_format = img_thumb.format
         else:
-            with open(path, 'rb') as image:
-                return (image.read(), img_src.format)
+            file_to_return = path
+            file_format = 'GIF'
 
+        with open(file_to_return, 'rb') as image:
+            return (image.read(), file_format)
 
         return (None, None)
 
