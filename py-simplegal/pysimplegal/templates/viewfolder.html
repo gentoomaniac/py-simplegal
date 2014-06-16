@@ -33,40 +33,42 @@
     </div>
 
     <div class='content'>
-    % if len(c.folders) > 0:
-        <div class='foldercontainer'>
-        % for folder in c.folders:
+    % if len(c.content) > 0:
+        % for file in c.content:
+            % if file[1] == 'directory':
             <div class='folder'>
-                <a href='/viewfolder/${folder[0]}/' title='${folder[0]}'>
+                <a href='/viewfolder/${file[0]}/' title='${file[0]}'>
                     <img src='/img/folder.png' height='${c.thumb_height}' width='${c.thumb_width}'>
                     <div class='preview'>
-                        % if len(folder[1]) > 0:
-                        <img src='/getthumbnail/${folder[0]}/${folder[1][0]}/' width='40' height='40'>
+                        <%
+                            (dirs, files) = h.get_folder_content("%s/%s" % (config['app_conf']['photo_store'], file[0]))
+                        %>
+                        % if len(files) > 0:
+                        <img src='/getthumbnail/${file[0]}/${files[0][0]}/' width='40' height='40'>
                         % endif
-                        % if len(folder[1]) > 1:
-                        <img src='/getthumbnail/${folder[0]}/${folder[1][1]}/' width='40' height='40'>
+                        % if len(files) > 1:
+                        <img src='/getthumbnail/${file[0]}/${files[1][0]}/' width='40' height='40'>
                         % endif
+
                     </div>
-                    <em>${folder[0]}</em>
+                    <em>${file[0]}</em>
                 </a>
             </div>
-        % endfor
-        <div style="clear: both"></div>
-        </div>
-    % endif
-
-    % if len(c.images) > 0:
-        <div class='imagecontainer'>
-        % for img in c.images:
+            % elif file[1] == 'image':
             <%
-               caption = "Download image: <a href='/getweb/%s/' target='_blank'>small</a>&nbsp;<a href='/getfull/%s/' target='_blank'>full</a>" % (img, img)
+               caption = "Download image: <a href='/getweb/%s/' target='_blank'>small</a>&nbsp;<a href='/getfile/%s/' target='_blank'>full</a>" % (file[0], file[0])
             %>
-            <div class='image'><a href='/getweb/${img}/' data-lightbox='current_folder' data-title='${caption}'>
-                <img src='/getthumbnail/${img}/' height='${c.thumb_height}' width='${c.thumb_width}'>
+            <div class='image'><a href='/getweb/${file[0]}/' data-lightbox='current_folder' data-title='${caption}'>
+                <img src='/getthumbnail/${file[0]}/' height='${c.thumb_height}' width='${c.thumb_width}'>
             </a></div>
+            % elif file[1] == 'video':
+            <div class='image'><a href='/getvideo/${file[0]}/'>
+                <img src='/img/video.png' height='${c.thumb_height}' width='${c.thumb_width}'>
+            </a></div>
+            % else:
+            % endif
         % endfor
-        <div style="clear: both"></div>
-        </div>
+            <div style="clear: both"></div>
     % endif
     </div>
     </body>

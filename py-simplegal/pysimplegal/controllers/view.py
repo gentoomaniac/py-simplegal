@@ -24,30 +24,24 @@ class ViewController(BaseController):
 
     def viewfolder(self, path=''):
         abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
-        folder_data = []
+        content = []
 
-        (folders, files) = h.get_images_from_folder(abs_path)
+        (dirs, files) = h.get_folder_content(abs_path)
+        content = dirs + files
         if path:
-            folders = ["%s/%s" % (path, folder) for folder in folders]
-            files = ["%s/%s" % (path, filename) for filename in files]
-
-        for folder in folders:
-            if config['app_conf']['folder_preview']:
-                (fol, fil) = h.get_images_from_folder("%s/%s" % (config['app_conf']['photo_store'], folder))
-                folder_data.append([folder, fil])
-            else:
-                folder_data.append([folder, []])
+            content = ["%s/%s" % (path, filename[0]) for filename in content]
 
         # add template vars
         c.site_name = config['app_conf']['site_name']
+        c.photo_store = config['app_conf']['photo_store']
+        c.folder_preview = config['app_conf']['folder_preview']
         c.current_path = path
         c.paths = h.path_to_array(path)
 
-        c.images = files
-        c.folders = folder_data
+        c.content = content
 
         c.thumb_height = config['app_conf']['thumb_height']
         c.thumb_width = config['app_conf']['thumb_width']
 
-        return render('/viewfolder.html')
+        return render(config['app_conf']['template_viewfolder'])
 

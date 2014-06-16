@@ -31,7 +31,7 @@ class ImageController(BaseController):
             try:
                 img_src = Image.open(path)
             except Exception, e:
-                raise e
+                return (None, None)
 
             if square:
                 img_out = ImageOps.fit(img_src, (width, height), Image.ANTIALIAS)
@@ -95,12 +95,8 @@ class ImageController(BaseController):
 
     def getfull(self, path):
         absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
-        try:
-            img_src = Image.open(absimagepath)
-        except Exception, e:
-            raise e
 
         with open(absimagepath, 'rb') as image:
-            response.content_type = 'image/%s' % img_src.format
+            response.content_type = 'image/%s' % imghdr.what(absimagepath)
             return image.read()
         return None

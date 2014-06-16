@@ -26,6 +26,7 @@ def make_map(config):
     map.connect('/getthumbnail/*path/', controller='image', action='getthumbnail')
     map.connect('/getweb/*path/', controller='image', action='getweb')
     map.connect('/getfull/*path/', controller='image', action='getfull')
+    map.connect('/getvideo/*path/', controller='video', action='getvideo')
     #map.connect('/{controller}/{action}')
     #map.connect('/{controller}/{action}/{id}')
 

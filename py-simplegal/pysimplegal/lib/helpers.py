@@ -28,23 +28,37 @@ def path_to_array(path):
     return folders
 
 
-def get_images_from_folder(path):
+def get_folder_content(path):
     """ get content of a given directory split into files and folders
     """
     import os
 
+    directories = []
     files = []
-    folders = []
     try:
         for filename in os.listdir(path):
-            if os.path.isdir("%s/%s" % (path, filename)):
-                folders.append(filename)
+            absfilepath = "%s/%s" % (path, filename)
+            if os.path.isdir(absfilepath):
+                directories.append([filename, get_file_type(absfilepath)])
             else:
-                files.append(filename)
+                files.append([filename, get_file_type(absfilepath)])
     except OSError, e:
-        raise e
+        pass
 
-    folders.sort()
-    files.sort()
+    return (directories, files)
 
-    return (folders, files)
+def get_file_type(path):
+    import magic
+    import re
+    mime = magic.from_file(path)
+
+    if re.search(r'directory', mime, re.IGNORECASE):
+        filetype = 'directory'
+    elif re.search(r'matroska', mime, re.IGNORECASE):
+        filetype = 'video'
+    elif re.search(r'JPEG|PNG|GIF', mime, re.IGNORECASE):
+        filetype = 'image'
+    else:
+        filetype = 'unknown'
+
+    return filetype
