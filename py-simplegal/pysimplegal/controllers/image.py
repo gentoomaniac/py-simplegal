@@ -77,3 +77,14 @@ class ImageController(BaseController):
         response.content_type = 'image/%s' % img_format
         return img_data
 
+    def getfull(self, path):
+        absimagepath = "%s/%s" % (config['app_conf']['photo_store'], path)
+        try:
+            img_src = Image.open(absimagepath)
+        except Exception, e:
+            raise e
+
+        with open(absimagepath, 'rb') as image:
+            response.content_type = 'image/%s' % img_src.format
+            return image.read()
+        return None

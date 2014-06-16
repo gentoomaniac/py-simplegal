@@ -25,6 +25,7 @@ def make_map(config):
     map.connect('/viewfolder/*path/', controller='view', action='viewfolder')
     map.connect('/getthumbnail/*path/', controller='image', action='getthumbnail')
     map.connect('/getweb/*path/', controller='image', action='getweb')
+    map.connect('/getfull/*path/', controller='image', action='getfull')
     #map.connect('/{controller}/{action}')
     #map.connect('/{controller}/{action}/{id}')
 
