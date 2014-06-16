@@ -45,6 +45,9 @@ def get_folder_content(path):
     except OSError, e:
         raise e
 
+    directories.sort()
+    files.sort()
+
     return (directories, files)
 
 def get_file_type(path):
