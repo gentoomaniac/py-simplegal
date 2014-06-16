@@ -43,22 +43,29 @@ def get_folder_content(path):
             else:
                 files.append([filename, get_file_type(absfilepath)])
     except OSError, e:
-        pass
+        raise e
 
     return (directories, files)
 
 def get_file_type(path):
     import magic
     import re
+    filetype = ''
+    filegroup = ''
+
     mime = magic.from_file(path)
 
     if re.search(r'directory', mime, re.IGNORECASE):
-        filetype = 'directory'
+        mime = 'directory'
+        filegroup = 'directory'
     elif re.search(r'matroska', mime, re.IGNORECASE):
-        filetype = 'video'
-    elif re.search(r'JPEG|PNG|GIF', mime, re.IGNORECASE):
-        filetype = 'image'
+        mime = 'video/x-matroska'
+        filegroup = 'video'
+    elif re.search(r'JPEG|JPG|PNG|GIF|BMP', mime, re.IGNORECASE):
+        mime = 'image'
+        filegroup = 'image'
     else:
-        filetype = 'unknown'
+        mime = 'unknown'
+        filegroup = 'unknown'
 
-    return filetype
+    return {'filetype': mime, 'filegroup': filegroup}

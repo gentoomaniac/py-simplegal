@@ -15,21 +15,15 @@ log = logging.getLogger(__name__)
 
 class ViewController(BaseController):
 
-
-    def index(self):
-        # Return a rendered template
-        #return render('/view.mako')
-       # or, return a string
-        return 'This will be the index'
-
     def viewfolder(self, path=''):
-        abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
+        if path:
+            abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
+        else:
+            abs_path = config['app_conf']['photo_store']
         content = []
 
         (dirs, files) = h.get_folder_content(abs_path)
         content = dirs + files
-        if path:
-            content = ["%s/%s" % (path, filename[0]) for filename in content]
 
         # add template vars
         c.site_name = config['app_conf']['site_name']
@@ -37,6 +31,10 @@ class ViewController(BaseController):
         c.folder_preview = config['app_conf']['folder_preview']
         c.current_path = path
         c.paths = h.path_to_array(path)
+        c.abspath = abs_path
+        c.path = path
+        if path:
+            c.path += '/'
 
         c.content = content
 
