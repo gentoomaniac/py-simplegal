@@ -37,7 +37,7 @@
         <div class='foldercontainer'>
         % for folder in c.folders:
             <div class='folder'>
-                <a href='/viewfolder/${folder[0]}/'>
+                <a href='/viewfolder/${folder[0]}/' title='${folder[0]}'>
                     <img src='/img/folder.png' height='${c.thumb_height}' width='${c.thumb_width}'>
                     <div class='preview'>
                         % if len(folder[1]) > 0:

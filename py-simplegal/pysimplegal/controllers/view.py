@@ -32,8 +32,11 @@ class ViewController(BaseController):
             files = ["%s/%s" % (path, filename) for filename in files]
 
         for folder in folders:
-            (fol, fil) = h.get_images_from_folder("%s/%s" % (config['app_conf']['photo_store'], folder))
-            folder_data.append([folder, fil])
+            if config['app_conf']['folder_preview']:
+                (fol, fil) = h.get_images_from_folder("%s/%s" % (config['app_conf']['photo_store'], folder))
+                folder_data.append([folder, fil])
+            else:
+                folder_data.append([folder, []])
 
         # add template vars
         c.site_name = config['app_conf']['site_name']
