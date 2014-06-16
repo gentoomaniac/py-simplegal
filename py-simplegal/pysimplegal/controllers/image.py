@@ -29,20 +29,29 @@ class ImageController(BaseController):
         if square:
             img_out = ImageOps.fit(img_src, (width, height), Image.ANTIALIAS)
         else:
-            img_src.thumbnail((width,height), Image.ANTIALIAS)
-            img_out = img_src
+            # some special treatment for gif files to keep the animation
+            if not img_src.format in ['GIF']:
+                img_src.thumbnail((width,height), Image.ANTIALIAS)
+                img_out = img_src
 
 
-        # caching
-        img_cache = "%s/%s" % (targetpath, h.get_thumb_filename(path))
-        if not os.path.isfile(img_cache):
-            try:
-                img_out.save(img_cache, img_src.format, quality=quality)
-            except Exception, e:
-                raise e
 
-        with open(img_cache, 'rb') as image:
-            return (image.read(), img_src.format)
+        # some special treatment for gif files to keep the animation
+        if not img_src.format in ['GIF'] or square:
+            # caching
+            img_cache = "%s/%s" % (targetpath, h.get_thumb_filename(path))
+            if not os.path.isfile(img_cache):
+                try:
+                    img_out.save(img_cache, img_src.format, quality=quality)
+                except Exception, e:
+                    raise e
+
+            with open(img_cache, 'rb') as image:
+                return (image.read(), img_src.format)
+        else:
+            with open(path, 'rb') as image:
+                return (image.read(), img_src.format)
+
 
         return (None, None)
 

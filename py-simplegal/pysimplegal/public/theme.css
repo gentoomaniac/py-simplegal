@@ -18,8 +18,17 @@
     -moz-opacity: 0.60;
     opacity:0.6;
 }
+.preview {
+    position: absolute;
+    top: 40px;
+    left 10px;
+}
+.preview img {
+    position: relative;
+    left: 20px;
+    border: 1px solid black;
+}
 .imagecontainer {
-#    border: 1px dotted blue;
 }
 .image {
     position: relative;

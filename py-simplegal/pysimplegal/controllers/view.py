@@ -19,42 +19,29 @@ class ViewController(BaseController):
     def index(self):
         # Return a rendered template
         #return render('/view.mako')
-        # or, return a string
+       # or, return a string
         return 'This will be the index'
 
     def viewfolder(self, path=''):
         abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
-        images = []
-        folders = []
+        folder_data = []
 
-        try:
-            for file in os.listdir(abs_path):
-                if os.path.isdir("%s/%s" % (abs_path, file)):
-                    if path:
-                        folders.append("%s/%s" % (path, file))
-                    else:
-                        folders.append("%s" % file)
-                else:
-                    if path:
-                        images.append("%s/%s" % (path, file))
-                    else:
-                        images.append("%s" % file)
-        except OSError, e:
-            raise e
+        (folders, files) = h.get_images_from_folder(abs_path)
+        if path:
+            folders = ["%s/%s" % (path, folder) for folder in folders]
+            files = ["%s/%s" % (path, filename) for filename in files]
 
-        # sort our data nicely
-        images.sort()
-        folders.sort()
-
-
+        for folder in folders:
+            (fol, fil) = h.get_images_from_folder("%s/%s" % (config['app_conf']['photo_store'], folder))
+            folder_data.append([folder, fil])
 
         # add template vars
         c.site_name = config['app_conf']['site_name']
         c.current_path = path
         c.paths = h.path_to_array(path)
 
-        c.images = images
-        c.folders = folders
+        c.images = files
+        c.folders = folder_data
 
         c.thumb_height = config['app_conf']['thumb_height']
         c.thumb_width = config['app_conf']['thumb_width']

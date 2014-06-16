@@ -35,9 +35,17 @@
         <div class='foldercontainer'>
         % for folder in c.folders:
             <div class='folder'>
-                <a href='/viewfolder/${folder}/'>
+                <a href='/viewfolder/${folder[0]}/'>
                     <img src='/img/folder.png' height='${c.thumb_height}' width='${c.thumb_width}'>
-                    <em>${folder}</em>
+                    <div class='preview'>
+                        % if len(folder[1]) > 0:
+                        <img src='/getthumbnail/${folder[0]}/${folder[1][0]}/' width='40' height='40'>
+                        % endif
+                        % if len(folder[1]) > 1:
+                        <img src='/getthumbnail/${folder[0]}/${folder[1][1]}/' width='40' height='40'>
+                        % endif
+                    </div>
+                    <em>${folder[0]}</em>
                 </a>
             </div>
         % endfor

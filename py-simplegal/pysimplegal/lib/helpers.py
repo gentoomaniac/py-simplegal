@@ -28,3 +28,23 @@ def path_to_array(path):
     return folders
 
 
+def get_images_from_folder(path):
+    """ get content of a given directory split into files and folders
+    """
+    import os
+
+    files = []
+    folders = []
+    try:
+        for filename in os.listdir(path):
+            if os.path.isdir("%s/%s" % (path, filename)):
+                folders.append(filename)
+            else:
+                files.append(filename)
+    except OSError, e:
+        raise e
+
+    folders.sort()
+    files.sort()
+
+    return (folders, files)
