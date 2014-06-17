@@ -57,12 +57,22 @@ def get_file_type(path):
     filegroup = ''
 
     mime = magic.from_file(path)
+    print mime
 
     if re.search(r'directory', mime, re.IGNORECASE):
         mime = 'directory'
         filegroup = 'directory'
+    elif re.search(r'MPEG v4', mime, re.IGNORECASE):
+        mime = 'video/mp4'
+        filegroup = 'video'
+    elif re.search(r'WebM', mime, re.IGNORECASE):
+        mime = 'video/webm'
+        filegroup = 'video'
     elif re.search(r'matroska', mime, re.IGNORECASE):
         mime = 'video/x-matroska'
+        filegroup = 'video'
+    elif re.search(r'Apple QuickTime movie', mime, re.IGNORECASE):
+        mime = 'video/quicktime'
         filegroup = 'video'
     elif re.search(r'JPEG|JPG|PNG|GIF|BMP', mime, re.IGNORECASE):
         mime = 'image'
@@ -71,7 +81,7 @@ def get_file_type(path):
         mime = 'unknown'
         filegroup = 'unknown'
 
-    return {'filetype': mime, 'filegroup': filegroup}
+    return {'mime': mime, 'filegroup': filegroup}
 
 
 def get_exif(path):

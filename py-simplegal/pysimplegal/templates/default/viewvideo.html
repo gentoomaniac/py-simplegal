@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>${c.site_name}</title>
+        <link rel="stylesheet" type="text/css" href="/templates/${c.site_template}/css/theme.css">
+
+        <!-- flowplayer -->
+        <link rel="stylesheet" href="/flowplayer/skin/minimalist.css">
+        <!-- 2. jquery library -->
+        <script src="/js/jquery-1.11.0.min.js"></script>
+        <!-- 3. flowplayer -->
+        <script src="/flowplayer/flowplayer.min.js"></script>
+    </head>
+
+
+    <body>
+        <div class="header">
+            <h1>${c.site_name}</h1>
+        </div>
+
+        <div class='navigation'>
+        <%
+            full_path = '/viewfolder/'
+        %>
+            <a href='${full_path}'>home</a>
+        % for path in c.paths:
+            % if path:
+            <%
+                full_path +=  "%s/" % path
+            %>
+            &nbsp;&gt;&nbsp;<a href='${full_path}'>${path}</a>
+            % endif
+        % endfor
+        </div>
+
+        <div class='videocontainer'>
+            <div class="flowplayer">
+               <video>
+                   <source src="/getvideo/${c.path}" type='${c.mime}' />
+                   <!-- <source src="/trailer_480p.webm" type='video/webm' /> -->
+               </video>
+            </div>
+        </div>
+    </body>
+</html>

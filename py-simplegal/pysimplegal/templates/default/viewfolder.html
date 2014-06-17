@@ -4,19 +4,12 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>${c.site_name}</title>
-
     <link rel="stylesheet" type="text/css" href="/templates/${c.site_template}/css/theme.css">
 
     <!-- Load lightbox2 -->
-    <script src="/templates/${c.site_template}/js/jquery-1.11.0.min.js"></script>
+    <script src="/js/jquery-1.11.0.min.js"></script>
     <script src="/templates/${c.site_template}/js/lightbox.min.js"></script>
     <link href="/templates/${c.site_template}/css/lightbox.css" rel="stylesheet" />
-
-    <!-- Load video.js
-    <link href="//vjs.zencdn.net/4.6/video-js.css" rel="stylesheet">
-    <script src="//vjs.zencdn.net/4.6/video.js"></script>
-    https://github.com/videojs/video.js/blob/stable/docs/guides/setup.md
-    -->
 
 </head>
 <body>
@@ -69,7 +62,7 @@
                     <img src='/getthumbnail/${c.path}${file[0]}/' height='${c.thumb_height}' width='${c.thumb_width}'>
             </a></div>
             % elif file[1]['filegroup'] == 'video':
-            <div class='image'><a href='/getvideo/${c.path}${file[0]}/'>
+            <div class='image'><a href='/viewvideo/${c.path}${file[0]}/' title="${c.path}${file[0]}">
                 <img src='/templates/${c.site_template}/img/video.png' height='${c.thumb_height}' width='${c.thumb_width}'>
             </a></div>
             % else:

@@ -51,6 +51,10 @@ body {
 }
 .content {
 }
+.videocontainer {
+    margin-left: auto;
+    margin-right: auto;
+}
 .navigation {
     font-style: italic;
     font-size: 80%;

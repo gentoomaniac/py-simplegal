@@ -20,7 +20,9 @@ def make_map(config):
 
     # CUSTOM ROUTES HERE
 
-    map.connect('/', controller='view', action='index')
+    map.connect('/', controller='view', action='viewfolder')
+    map.connect('/viewvideo/', controller='view', action='viewvideo')
+    map.connect('/viewvideo/*path/', controller='view', action='viewvideo')
     map.connect('/viewfolder/', controller='view', action='viewfolder')
     map.connect('/viewfolder/*path/', controller='view', action='viewfolder')
     map.connect('/getthumbnail/*path/', controller='image', action='getthumbnail')

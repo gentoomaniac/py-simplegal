@@ -8,7 +8,6 @@ from pylons import tmpl_context as c
 from pysimplegal.lib.base import BaseController, render
 
 import os
-
 import pysimplegal.lib.helpers as h
 
 log = logging.getLogger(__name__)
@@ -44,3 +43,23 @@ class ViewController(BaseController):
 
         return render("%s/viewfolder.html" % config['app_conf']['site_template'])
 
+    def viewvideo(self, path=''):
+        """ parse template to provide videoplayer iframe content
+        """
+        if path:
+            abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
+        else:
+            abs_path = config['app_conf']['photo_store']
+
+        c.site_name = config['app_conf']['site_name']
+        c.site_template = config['app_conf']['site_template']
+        c.abspath = abs_path
+        c.path = path
+        c.paths = h.path_to_array(path)
+        c.mime = h.get_file_type(abs_path)['mime']
+
+
+        if path:
+            c.path += '/'
+
+        return render("%s/viewvideo.html" % config['app_conf']['site_template'])
