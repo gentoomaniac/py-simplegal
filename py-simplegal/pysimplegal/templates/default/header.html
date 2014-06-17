@@ -1,0 +1,23 @@
+    <body>
+        <div class="header">
+            <h1>${c.site_name}</h1>
+        </div>
+
+        <div class='navigation'>
+        <%
+            last_path = c.paths.pop()
+            full_path = '/viewfolder/'
+        %>
+            <a href='${full_path}'>home</a>&nbsp;&gt;
+        % if len(c.paths) > 0:
+        % for path in c.paths:
+            % if path:
+            <%
+                full_path +=  "%s/" % path
+            %>
+            <a href='${full_path}'>${path}</a>&nbsp;&gt;
+            % endif
+        % endfor
+        % endif
+            ${last_path}
+        </div>

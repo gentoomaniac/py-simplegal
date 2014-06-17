@@ -63,3 +63,7 @@ body {
 .navigation a {
     color: #ffffff;
 }
+.footer {
+    margin-top: 30px;
+    border: 1px solid green;
+}

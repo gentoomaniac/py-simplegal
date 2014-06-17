@@ -12,29 +12,9 @@
     <link href="/templates/${c.site_template}/css/lightbox.css" rel="stylesheet" />
 
 </head>
-<body>
-    <div class="header">
-        <h1>${c.site_name}</h1>
-    </div>
 
-    <div class='navigation'>
-        <%
-            last_path = c.paths.pop()
-            full_path = '/viewfolder/'
-        %>
-            <a href='${full_path}'>home</a>&nbsp;&gt;
-        % if len(c.paths) > 0:
-        % for path in c.paths:
-            % if path:
-            <%
-                full_path +=  "%s/" % path
-            %>
-            <a href='${full_path}'>${path}</a>&nbsp;&gt;
-            % endif
-        % endfor
-        % endif
-            ${last_path}
-    </div>
+<%include file="header.html"/>
+
     <div class='content'>
     % if len(c.content) > 0:
         % for file in c.content:
@@ -77,5 +57,4 @@
             <div style="clear: both"></div>
     % endif
     </div>
-    </body>
-</html>
+<%include file="footer.html"/>
