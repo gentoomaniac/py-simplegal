@@ -63,6 +63,13 @@ body {
 .navigation a {
     color: #ffffff;
 }
+.header {
+    margin-bottom: 30px;
+}
+.header em {
+    font-style: italic;
+    font-size: 90%;
+}
 .footer {
     margin-top: 30px;
     border: 1px solid green;

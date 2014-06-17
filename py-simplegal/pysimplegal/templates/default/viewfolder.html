@@ -17,7 +17,14 @@
 
     <div class='content'>
     % if len(c.content) > 0:
-        % for file in c.content:
+        % if c.thumbs_per_page > 0:
+            <%
+                first = (c.current_page-1)*c.thumbs_per_page
+                last = c.current_page*c.thumbs_per_page
+                c.page_content = c.content[first:last]
+            %>
+        % endif
+        % for file in c.page_content:
             % if file[1]['filegroup'] == 'directory':
             <div class='folder'>
                 <a href='/viewfolder/${c.path}${file[0]}/' title='${file[0]}'>

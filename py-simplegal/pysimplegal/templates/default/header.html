@@ -1,6 +1,7 @@
     <body>
         <div class="header">
             <h1>${c.site_name}</h1>
+            <em>by: ${c.site_author}</em>
         </div>
 
         <div class='navigation'>
@@ -8,16 +9,18 @@
             last_path = c.paths.pop()
             full_path = '/viewfolder/'
         %>
-            <a href='${full_path}'>home</a>&nbsp;&gt;
+            <a href='${full_path}'>home</a>
         % if len(c.paths) > 0:
         % for path in c.paths:
             % if path:
             <%
                 full_path +=  "%s/" % path
             %>
-            <a href='${full_path}'>${path}</a>&nbsp;&gt;
+            &gt;&nbsp;<a href='${full_path}'>${path}</a>
             % endif
         % endfor
         % endif
-            ${last_path}
+        % if last_path:
+            &gt;&nbsp;${last_path}
+        % endif
         </div>

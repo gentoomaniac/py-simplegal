@@ -1,5 +1,36 @@
         <div class='footer'>
-            FOOTER
+            % if c.thumbs_per_page > 0:
+            <%
+                sitenumber = 0
+            %>
+            <div class='pagination'>
+                % if c.current_page > 1:
+                    <a href='/viewfolder/${c.path}?page=1'>first</a>&nbsp;
+                    <a href='/viewfolder/${c.path}?page=${c.current_page-1}'>prev</a>&nbsp;
+                % else:
+                    first&nbsp;prev&nbsp;
+                % endif
+                % for index in xrange(len(c.content)):
+                    % if index % c.thumbs_per_page == 0:
+                    <%
+                        sitenumber += 1
+                    %>
+                        % if sitenumber == c.current_page:
+                    ${sitenumber}
+                        % else:
+                    <a href='/viewfolder/${c.path}?page=${sitenumber}'>${sitenumber}</a>&nbsp;
+                        % endif
+                    % endif
+                % endfor
+                % if c.current_page < sitenumber:
+                    <a href='/viewfolder/${c.path}?page=${c.current_page+1}'>next</a>&nbsp;
+                    <a href='/viewfolder/${c.path}?page=${sitenumber}'>last</a>&nbsp;
+                % else:
+                    next&nbsp;last&nbsp;
+                % endif
+            </div>
+            % endif
+            version: ${c.site_version}
         </div>
     </body>
 </html>
