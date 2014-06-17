@@ -18,20 +18,23 @@
     </div>
 
     <div class='navigation'>
-    <%
-        full_path = '/viewfolder/'
-    %>
-        <a href='${full_path}'>home</a>
-    % for path in c.paths:
-        % if path:
         <%
-            full_path +=  "%s/" % path
+            last_path = c.paths.pop()
+            full_path = '/viewfolder/'
         %>
-        &nbsp;&gt;&nbsp;<a href='${full_path}'>${path}</a>
+            <a href='${full_path}'>home</a>&nbsp;&gt;
+        % if len(c.paths) > 0:
+        % for path in c.paths:
+            % if path:
+            <%
+                full_path +=  "%s/" % path
+            %>
+            <a href='${full_path}'>${path}</a>&nbsp;&gt;
+            % endif
+        % endfor
         % endif
-    % endfor
+            ${last_path}
     </div>
-
     <div class='content'>
     % if len(c.content) > 0:
         % for file in c.content:

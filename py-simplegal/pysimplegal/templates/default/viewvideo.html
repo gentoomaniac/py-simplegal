@@ -21,17 +21,21 @@
 
         <div class='navigation'>
         <%
+            last_path = c.paths.pop()
             full_path = '/viewfolder/'
         %>
-            <a href='${full_path}'>home</a>
+            <a href='${full_path}'>home</a>&nbsp;&gt;
+        % if len(c.paths) > 0:
         % for path in c.paths:
             % if path:
             <%
                 full_path +=  "%s/" % path
             %>
-            &nbsp;&gt;&nbsp;<a href='${full_path}'>${path}</a>
+            <a href='${full_path}'>${path}</a>&nbsp;&gt;
             % endif
         % endfor
+        % endif
+            ${last_path}
         </div>
 
         <div class='videocontainer'>
