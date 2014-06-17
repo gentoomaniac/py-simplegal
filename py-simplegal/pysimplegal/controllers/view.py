@@ -16,7 +16,7 @@ class ViewController(BaseController):
 
     def _set_global_template_vars(self, path):
         if path:
-            abs_path = "%s/%s/" % (config['app_conf']['photo_store'], path)
+            abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
         else:
             abs_path = config['app_conf']['photo_store']
         c.site_name = config['app_conf']['site_name']
@@ -42,7 +42,7 @@ class ViewController(BaseController):
 
     def viewfolder(self, path='', page=1):
         if path:
-            abs_path = "%s/%s/" % (config['app_conf']['photo_store'], path)
+            abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
         else:
             abs_path = config['app_conf']['photo_store']
         content = []
@@ -61,7 +61,7 @@ class ViewController(BaseController):
         """ parse template to provide videoplayer iframe content
         """
         if path:
-            abs_path = "%s/%s/" % (config['app_conf']['photo_store'], path)
+            abs_path = "%s/%s" % (config['app_conf']['photo_store'], path)
         else:
             abs_path = config['app_conf']['photo_store']
 
