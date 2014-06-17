@@ -1,10 +1,9 @@
-.foldercontainer {
-#    border: 1px dotted red;
-}
 .folder {
     position: relative;
     float: left;
-    margin: 5px;
+    margin: 1px;
+    width: 128px;
+    height: 128px;
 }
 .folder em {
     position: absolute;
@@ -30,12 +29,12 @@
     left: 20px;
     border: 1px solid black;
 }
-.imagecontainer {
-}
 .image {
     position: relative;
     float: left;
-    margin: 5px;
+    margin: 1px;
+    width: 128px;
+    height: 128px;
 }
 img {
 }
@@ -55,6 +54,7 @@ body {
 .navigation {
     font-style: italic;
     font-size: 80%;
+    margin-bottom: 10px;
 }
 .navigation a {
     color: #ffffff;

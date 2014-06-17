@@ -5,12 +5,12 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>${c.site_name}</title>
 
-    <link rel="stylesheet" type="text/css" href="/theme.css">
+    <link rel="stylesheet" type="text/css" href="/templates/${c.site_template}/css/theme.css">
 
     <!-- Load lightbox2 -->
-    <script src="/js/jquery-1.11.0.min.js"></script>
-    <script src="/js/lightbox.min.js"></script>
-    <link href="/css/lightbox.css" rel="stylesheet" />
+    <script src="/templates/${c.site_template}/js/jquery-1.11.0.min.js"></script>
+    <script src="/templates/${c.site_template}/js/lightbox.min.js"></script>
+    <link href="/templates/${c.site_template}/css/lightbox.css" rel="stylesheet" />
 
     <!-- Load video.js
     <link href="//vjs.zencdn.net/4.6/video-js.css" rel="stylesheet">
@@ -28,7 +28,7 @@
     <%
         full_path = '/viewfolder/'
     %>
-    <a href='${full_path}'>home</a>
+        <a href='${full_path}'>home</a>
     % for path in c.paths:
         % if path:
         <%
@@ -45,7 +45,7 @@
             % if file[1]['filegroup'] == 'directory':
             <div class='folder'>
                 <a href='/viewfolder/${c.path}${file[0]}/' title='${file[0]}'>
-                    <img src='/img/folder.png' height='${c.thumb_height}' width='${c.thumb_width}'>
+                    <img src='/templates/${c.site_template}/img/folder.png' height='${c.thumb_height}' width='${c.thumb_width}'>
                     <div class='preview'>
                         <%
                         (dirs, files) = h.get_folder_content("%s/%s%s" % (config['app_conf']['photo_store'], c.path, file[0]))
@@ -63,18 +63,18 @@
             </div>
             % elif file[1]['filegroup'] == 'image':
             <%
-               caption = "Download image: <a href='/getweb/%s%s/' target='_blank'>small</a>&nbsp;<a href='/getfull/%s%s/' target='_blank'>full</a>" % (c.path, file[0], c.path, file[0])
+                caption = "Download image: <a href='/getweb/%s%s/' target='_blank'>small</a>&nbsp;<a href='/getfull/%s%s/' target='_blank'>full</a><br />%s" % (c.path, file[0], c.path, file[0], "exif")
             %>
             <div class='image'><a href='/getweb/${c.path}${file[0]}/' data-lightbox='current_folder' data-title='${caption}'>
-                <img src='/getthumbnail/${c.path}${file[0]}/' height='${c.thumb_height}' width='${c.thumb_width}'>
+                    <img src='/getthumbnail/${c.path}${file[0]}/' height='${c.thumb_height}' width='${c.thumb_width}'>
             </a></div>
             % elif file[1]['filegroup'] == 'video':
             <div class='image'><a href='/getvideo/${c.path}${file[0]}/'>
-                <img src='/img/video.png' height='${c.thumb_height}' width='${c.thumb_width}'>
+                <img src='/templates/${c.site_template}/img/video.png' height='${c.thumb_height}' width='${c.thumb_width}'>
             </a></div>
             % else:
             <div class='image'><a href='/getfile/${c.path}${file[0]}/'>
-                <img src='/img/unknown.png' height='${c.thumb_height}' width='${c.thumb_width}'>
+                <img src='/templates/${c.site_template}/img/unknown.png' height='${c.thumb_height}' width='${c.thumb_width}'>
             </a></div>
             % endif
         % endfor

@@ -72,3 +72,9 @@ def get_file_type(path):
         filegroup = 'unknown'
 
     return {'filetype': mime, 'filegroup': filegroup}
+
+
+def get_exif(path):
+    from PIL import Image
+    img = Image.open(path)
+    return img._getexif()

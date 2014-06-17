@@ -27,6 +27,7 @@ class ViewController(BaseController):
 
         # add template vars
         c.site_name = config['app_conf']['site_name']
+        c.site_template = config['app_conf']['site_template']
         c.photo_store = config['app_conf']['photo_store']
         c.folder_preview = config['app_conf']['folder_preview']
         c.current_path = path
@@ -41,5 +42,5 @@ class ViewController(BaseController):
         c.thumb_height = config['app_conf']['thumb_height']
         c.thumb_width = config['app_conf']['thumb_width']
 
-        return render(config['app_conf']['template_viewfolder'])
+        return render("%s/viewfolder.html" % config['app_conf']['site_template'])
 
